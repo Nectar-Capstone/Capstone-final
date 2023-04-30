@@ -69,7 +69,7 @@ struct IsAccess: Decodable {
     let accessTime: String?
 }
 
-struct IsTaking: Decodable {
+struct IsTaking: Decodable , Hashable {
     let id : String?
     let uid: String
     let code: String
@@ -78,7 +78,7 @@ struct IsTaking: Decodable {
     let note: String?
     let Medication: Medication?
     
-    struct Medication: Decodable {
+    struct Medication: Decodable ,Hashable{
         let code: String
         let display: String
     }
