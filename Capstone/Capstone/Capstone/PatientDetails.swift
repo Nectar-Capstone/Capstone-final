@@ -32,8 +32,8 @@ struct PatientDetails: View {
                 VStack {
           
                     VStack{
-                        InformationCard(img:Image("girl"),name: "Jessica Doeramen", status: "patient").padding(.bottom,20)
-                        Patientinformation(name: "Jessica", surname: "Doraemon", gender: "Female", birthdate: "16/10/00", contact: "+66-999-9999", emergency: "091-715-5550")
+                        InformationCard(img:Image("girl"),name: Patient_only.name, status: "patient").padding(.bottom,20)
+                        Patientinformation(name: Patient_only.name.trimmingCharacters(in: .whitespaces), surname: "Doraemon", gender: "Female", birthdate: "16/10/00", contact: "+66-999-9999", emergency: "091-715-5550")
                         HStack{
                             Relatives(name: "Jose Doraemon", status: "Father")
                             Relatives(name: "Jane Doeramen", status: "Grandmother")}

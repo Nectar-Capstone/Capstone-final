@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-
-
 struct Organization: Codable, Hashable{
     let id: Int
     let type: String?
@@ -124,12 +122,13 @@ struct IsAllergic: Codable, Hashable{
         let isTaking: [IsTaking]
     }
 }
+var Patient_only: Patient = Patient(id: "", uid: "", cid: "", name: "", gender: "", telecom: "", contact_name: "", contact_relationship: "", contact_gender: "", contact_telecom: "", isHaving: [], isAllergic: [], isTaking: [])
 
 class ViewModel: ObservableObject{
-     @Published var Patient_only: Patient = Patient(id: "", uid: "", cid: "", name: "", gender: "", telecom: "", contact_name: "", contact_relationship: "", contact_gender: "", contact_telecom: "", isHaving: [], isAllergic: [], isTaking: [])
+
     
     func fetch(){
-        guard let url = URL(string: "http://localhost:3000/users/patient?uid=d0ce62c70b8b95d14fd335165663d1718b95d3df83710e4a48990a602720d053") else{
+        guard let url = URL(string: "http://localhost:3001/users/patient?uid=00746be9eb85f799371c03d7b8441bb592ddefb5dc215bb01eff70582a55dc0d") else{
             return
         }
         
@@ -146,7 +145,7 @@ class ViewModel: ObservableObject{
             do{
                 let patients = try JSONDecoder().decode(Patient.self, from: data)
                 DispatchQueue.main.async {
-                    self?.Patient_only = patients
+                    Patient_only = patients
                   
                 }
                 print(patients)
@@ -191,8 +190,8 @@ struct NectarMain: View {
                 VStack {
                     HStack {
                         VStack(spacing :30){
-                            DetailsCard(title: "Patient Name", details: viewModel.Patient_only.name, action: "more info", destination: PatientDetails())
-                            DetailsCard(title: "Relative (Emergency Contact)", details: viewModel.Patient_only.telecom ?? "", action: "more info", destination: Relative())
+                            DetailsCard(title: "Patient Name", details: Patient_only.name, action: "more info", destination: PatientDetails())
+                            DetailsCard(title: "Relative (Emergency Contact)", details: Patient_only.telecom ?? "", action: "more info", destination: Relative())
                             DetailsCard(title: "Current Medications", details: "Metformin, Antihistamines, ....", action: "more info",destination: CurrentMedication())
                             DetailsCard(title: "Allergy", details: "Pollen", action: "more info",destination: Allergies())
                             DetailsCard(title: "Underlying Disease", details: "Resolved asthma", action: "more info",destination: UnderlyingDisease())

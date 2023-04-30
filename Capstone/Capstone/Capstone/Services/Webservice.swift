@@ -34,7 +34,7 @@ class Webservice {
 
     func login(username: String, password: String, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
         
-        guard let url = URL(string: "http://localhost:3000/auth/login") else {
+        guard let url = URL(string: "http://localhost:3001/auth/login") else {
             completion(.failure(.custom(errorMessage: "URL is not correct")))
             return
         }
