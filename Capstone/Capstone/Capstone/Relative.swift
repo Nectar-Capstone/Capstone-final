@@ -10,14 +10,8 @@ import PhoneNumberKit
 let relative_fullNameArr = Patient_only.contact_name?.components(separatedBy: " ")
 let relative_firstname    = fullNameArr[0]
 let relative_surname = fullNameArr[1]
-var formattedPhoneNumber: String {
-    let phoneNumberKit = PhoneNumberKit()
-    let phoneNumber = try? phoneNumberKit.parse(Patient_only.contact_telecom ?? " ")
-    return phoneNumberKit.format(phoneNumber!, toType: .international)
-}
-func testFormat(sourcePhoneNumber: String) -> String {
 
-}
+
 struct Relative: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     var body: some View {
