@@ -21,7 +21,7 @@ struct Relative: View {
                 VStack{
                     InformationCard(img:Image("boy"),name: Patient_only.contact_name ?? " ", status: Patient_only.contact_relationship ?? " ").padding(.bottom,20)
                     EmergencyCard(phone: Patient_only.contact_telecom ?? " ").padding(.bottom,20)
-                    RelativeCard(name: relative_firstname, surname: relative_surname, gender: Patient_only.contact_gender ?? " ", contact: formattedPhoneNumber)
+                    RelativeCard(name: relative_firstname, surname: relative_surname, gender: Patient_only.contact_gender ?? " ", contact: Patient_only.contact_telecom ?? " ")
                 }.padding(.top,-50)
                 Spacer() .frame(height : 150)
             }.navigationTitle("Relative")

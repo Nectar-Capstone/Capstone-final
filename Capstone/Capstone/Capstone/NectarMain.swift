@@ -76,15 +76,12 @@ struct IsTaking: Decodable {
     let authoredOn: String?
     let dosageInstruction: String?
     let note: String?
+    let Medication: Medication?
     
-//    struct Medication: Decodable {
-//
-//
-//        let id : String
-//        let code: String
-//        let display: String
-//        let isTaking: [IsTaking]
-//    }
+    struct Medication: Decodable {
+        let code: String
+        let display: String
+    }
 }
 struct IsHaving: Decodable {
     let id : String?
@@ -95,13 +92,12 @@ struct IsHaving: Decodable {
     let category: String?
     let severity: String?
     let recordDate: String?
-//    let conditionProblemDiagnosis: ConditionProblemDiagnosis?
-//
-//    struct ConditionProblemDiagnosis: Codable ,Hashable{
-//        let id : String
-//        let code: String
-//        let display: String
-//    }
+    let ConditionProblemDiagnosis: ConditionProblemDiagnosis?
+
+    struct ConditionProblemDiagnosis: Codable ,Hashable{
+        let code: String
+        let display: String
+    }
 }
 struct IsAllergic: Decodable{
     let id : String?
@@ -113,14 +109,12 @@ struct IsAllergic: Decodable{
     let category: String?
     let criticality: String?
     let recordDate: String?
-//    let allergicIntoleranceSubstance: AllergicIntoleranceSubstance?
-//
-//    struct AllergicIntoleranceSubstance: Decodable {
-//        let id : String
-//        let code: String
-//        let display: String
-//        let isTaking: [IsTaking]
-//    }
+    let AllergicIntoleranceSubstance: AllergicIntoleranceSubstance?
+
+    struct AllergicIntoleranceSubstance: Decodable {
+        let code: String
+        let display: String
+    }
 }
 var Patient_only: Patient = Patient(id: "", uid: "", cid: "", name: "", gender: "", telecom: "", contact_name: "", contact_relationship: "", contact_gender: "", contact_telecom: "", IsHaving: [], IsAllergic: [], IsTaking: [])
 
