@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct CurrentMedication: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     var body: some View {
@@ -25,7 +26,7 @@ struct CurrentMedication: View {
             ScrollView(.vertical,showsIndicators: false){
                 VStack(spacing :10){
                     ForEach(Patient_only.IsTaking ?? [], id:\.self){ medication in
-                        Medication(title:medication.Medication?.display ?? "" ,date: medication.authoredOn ?? "unknown date", doses: medication.dosageInstruction ?? "", description: medication.note ?? "")
+                        Medication(title:medication.Medication?.display ?? "" ,date: convertToDate(medication.authoredOn ?? "unknown date"), doses: medication.dosageInstruction ?? "", description: medication.note ?? "")
                         Spacer()
                     }
                     

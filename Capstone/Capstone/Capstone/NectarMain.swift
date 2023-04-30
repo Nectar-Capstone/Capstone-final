@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct Organization: Decodable{
     let id: Int
@@ -117,7 +118,7 @@ struct IsAllergic: Decodable, Hashable{
     }
 }
 var Patient_only: Patient = Patient(id: "", uid: "", cid: "", name: "", gender: "", telecom: "", contact_name: "", contact_relationship: "", contact_gender: "", contact_telecom: "", IsHaving: [], IsAllergic: [], IsTaking: [])
-
+var aller : String=""
 func convertToDate(_ dateString: String) -> String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -131,8 +132,13 @@ func convertToDate(_ dateString: String) -> String {
 }
 
 class ViewModel: ObservableObject{
+    internal let objectWillChange = ObservableObjectPublisher()
+    
+    func updateView(){
+        objectWillChange.send()
+    }
     func fetch() async -> Patient {
-        guard let url = URL(string: "http://localhost:3001/users/patient?uid=00746be9eb85f799371c03d7b8441bb592ddefb5dc215bb01eff70582a55dc0d") else {
+        guard let url = URL(string: " https://d280-27-55-68-56.ngrok-free.app/users/patient?uid=00746be9eb85f799371c03d7b8441bb592ddefb5dc215bb01eff70582a55dc0d") else {
             return Patient_only
         }
 
@@ -144,8 +150,7 @@ class ViewModel: ObservableObject{
         do {
             let (data, _) = try await URLSession.shared.data(for: request)
             let patients = try JSONDecoder().decode(Patient.self, from: data)
-            print(patients.IsHaving?[1].ConditionProblemDiagnosis?.display)
-            print(patients.IsHaving?[1].severity)
+            print(patients)
             return patients
         } catch {
             print(error)
@@ -173,7 +178,6 @@ struct NectarMain: View {
                     HStack {
                         VStack(spacing :30){
                             BackgroundColor(backgroundColor:Color( red: 148 / 255, green: 215 / 255, blue: 255 / 255, opacity: 1))
-                            BackgroundColor(backgroundColor:Color( red: 251 / 255, green: 119 / 255, blue: 151 / 255, opacity: 1))
                             BackgroundColor(backgroundColor:Color( red: 240 / 255, green: 215 / 255, blue: 125 / 255, opacity: 1))
                             BackgroundColor(backgroundColor:Color( red: 148 / 255, green: 215 / 255, blue: 255 / 255, opacity: 1))
                             BackgroundColor(backgroundColor:Color( red: 128 / 255, green: 197 / 255, blue: 116 / 255, opacity: 1))
@@ -187,12 +191,12 @@ struct NectarMain: View {
                 VStack {
                     HStack {
                         VStack(spacing :30){
-                            
+//                            Text(String(describing: Patient_only.IsHaving))
+                            //Text(String(describing: Patient_only.IsHaving?.first?.ConditionProblemDiagnosis?.display))
                             DetailsCard(title: "Patient name", details:Patient_only.name, action: "more info", destination: PatientDetails())
-                            DetailsCard(title: "Relative (Emergency Contact)", details: Patient_only.contact_telecom ?? "", action: "more info", destination: Relative())
-//                            DetailsCard(title: "Current Medications", details: Patient_only.IsTaking?[1].Medication?.display ?? " ", action: "more info",destination: CurrentMedication())
-//                            DetailsCard(title: "Allergy", details: Patient_only.IsAllergic?[1].AllergicIntoleranceSubstance?.display ?? "", action: "more info",destination: Allergies())
-//                            DetailsCard(title: "Underlying Disease", details: Patient_only.IsHaving?[0].ConditionProblemDiagnosis?.display ?? "", action: "more info",destination: UnderlyingDisease())
+                            DetailsCard(title: "Current Medications", details: Patient_only.IsTaking?.first?.Medication?.display ?? " ", action: "more info",destination: CurrentMedication())
+                            DetailsCard(title: "Allergy", details: Patient_only.IsAllergic?.first?.AllergicIntoleranceSubstance?.display ?? "", action: "more info",destination: Allergies())
+                            DetailsCard(title: "Underlying Disease", details: Patient_only.IsHaving?.first?.ConditionProblemDiagnosis?.display ?? "", action: "more info",destination: UnderlyingDisease())
                             Spacer()
                             
                         }.padding(.top,70)
@@ -209,9 +213,10 @@ struct NectarMain: View {
         
             .onAppear{Task{
                 Patient_only = await viewModel.fetch()
-                print("from nectar main ========")
-                print(Patient_only)
-                print("==============")
+                viewModel.updateView()
+//                print("from nectar main ========")
+//                print(Patient_only)
+//                print("==============")
             }
                 
             }

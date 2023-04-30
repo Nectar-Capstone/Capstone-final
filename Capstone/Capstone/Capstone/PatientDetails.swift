@@ -25,7 +25,6 @@ struct Course: Hashable, Codable{
 
 
 let fullNameArr = Patient_only.name.components(separatedBy: " ")
-
 let firstname    = fullNameArr[0]
 let surname = fullNameArr[1]
 
@@ -37,8 +36,8 @@ struct PatientDetails: View {
                 VStack {
           
                     VStack{
-                        InformationCard(img:Image("girl"),name: Patient_only.name, status: "patient").padding(.bottom,20)
-                        Patientinformation(name: firstname, surname: surname, gender: Patient_only.gender ?? " ", birthdate: "16/10/00", contact: Patient_only.telecom ?? " ", emergency: Patient_only.contact_telecom ?? " ")
+                        InformationCard(img:Image("girl"),name: Patient_only.name ?? "", status: "patient").padding(.bottom,20)
+                        Patientinformation(name: firstname ?? "", surname: surname ?? "", gender: Patient_only.gender ?? " ", birthdate: "16/10/00", contact: Patient_only.telecom ?? " ", emergency: Patient_only.contact_telecom ?? " ")
                         HStack{
                             Relatives(name: Patient_only.contact_name ?? " ", status: Patient_only.contact_relationship ?? " ")
 
