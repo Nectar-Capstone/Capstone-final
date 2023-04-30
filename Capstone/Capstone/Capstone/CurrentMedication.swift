@@ -65,9 +65,11 @@ struct Medication: View {
                             .fontWeight(.bold)
                             .padding(.bottom,1)
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .foregroundColor(.black)
                         Text(date)
                             .font(.system(size: 12))
                             .frame(maxWidth: 80, alignment: .trailing)
+                            .foregroundColor(.black)
                     }
                     Text(doses)
                         .font(.system(size: 12))
@@ -81,6 +83,7 @@ struct Medication: View {
                         .padding(.bottom,1)
 
                 } .padding(.horizontal,5)
+                    .foregroundColor(.black)
 
             }
         }   .padding(.horizontal)

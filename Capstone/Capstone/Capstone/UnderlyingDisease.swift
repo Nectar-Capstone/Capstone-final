@@ -64,6 +64,7 @@ struct Disease: View {
                         .padding(.bottom,1)
       
                 } .padding(.horizontal,5)
+                    .foregroundColor(.black)
 
             }
         }   .padding(.horizontal)

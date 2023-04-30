@@ -59,6 +59,7 @@ struct Allergy: View {
                             .font(.system(size: 16,weight: .bold))
                             .padding(.bottom,1)
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .foregroundColor(.black)
                         switch criticality {
                             case "critical":
                                 Text(criticality)

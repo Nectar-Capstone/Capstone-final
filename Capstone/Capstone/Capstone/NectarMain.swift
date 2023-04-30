@@ -138,7 +138,8 @@ class ViewModel: ObservableObject{
         objectWillChange.send()
     }
     func fetch() async -> Patient {
-        guard let url = URL(string: " https://d280-27-55-68-56.ngrok-free.app/users/patient?uid=00746be9eb85f799371c03d7b8441bb592ddefb5dc215bb01eff70582a55dc0d") else {
+        guard let url = URL(string:
+            "https://57fa-49-228-231-83.ngrok-free.app/users/patient?uid=00746be9eb85f799371c03d7b8441bb592ddefb5dc215bb01eff70582a55dc0d") else {
             return Patient_only
         }
 

@@ -34,7 +34,7 @@ class Webservice {
 
     func login(username: String, password: String, completion: @escaping (Result<String, AuthenticationError>) -> Void) {
         
-        guard let url = URL(string: "https://d280-27-55-68-56.ngrok-free.app/auth/login") else {
+        guard let url = URL(string: "https://57fa-49-228-231-83.ngrok-free.app/auth/login") else {
             completion(.failure(.custom(errorMessage: "URL is not correct")))
             return
         }
