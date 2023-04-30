@@ -22,18 +22,20 @@ struct UnderlyingDisease: View {
                 .opacity(0.5)
                 .cornerRadius(16)
                 .padding(.top,-20)
-            VStack(spacing :30){
-               Disease(title:"Resolved asthma" ,date: "15/08/2022", amount: "500 mg", doses: "2 doses per xxx", description: "description category and form")
-                Spacer()
-            }.padding(.top,40)
-                .navigationTitle("Underlying Disease")
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarBackButtonHidden(true)
-                         .navigationBarItems(leading: Button(action : {
-                             self.mode.wrappedValue.dismiss()
-                         }){
-                             Image(systemName: "arrow.left")
-                         })
+            ScrollView(.vertical, showsIndicators: false){
+                VStack(spacing :30){
+                    ForEach(Patient_only.IsHaving ?? [], id:\.self){ disease in
+                        Disease(title:disease.ConditionProblemDiagnosis?.display ?? "" ,date: "15/08/2022")}
+                    Spacer()
+                }}.frame(height: 650)
+                    .navigationTitle("Underlying Disease")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarBackButtonHidden(true)
+                    .navigationBarItems(leading: Button(action : {
+                        self.mode.wrappedValue.dismiss()
+                    }){
+                        Image(systemName: "arrow.left")
+                    })
         }
     }
 }
@@ -46,9 +48,6 @@ struct UnderlyingDisease_Previews: PreviewProvider {
 struct Disease: View {
     var title: String
     var date : String
-    var amount : String
-    var doses : String
-    var description: String
     var body: some View {
         HStack{
             HStack{
@@ -59,16 +58,9 @@ struct Disease: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                     Text("Since :"+date)             .font(.system(size: 14))
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal,30)
-                        .padding(.bottom,1)
-                    Text("description")
-                        .font(.system(size: 14))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal,30)
+                        .padding(.horizontal,20)
                         .padding(.bottom,1)
       
-    
-
                 } .padding(.horizontal,5)
 
             }

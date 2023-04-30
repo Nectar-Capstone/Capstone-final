@@ -57,9 +57,9 @@ struct PatientDetails: View {
                                  Image(systemName: "arrow.left")
                              })
             }  .onAppear{
-                print("from patient details ========")
-                print(Patient_only)
-                print("==============")
+//                print("from patient details ========")
+//                print(Patient_only)
+//                print("==============")
             }
         
             

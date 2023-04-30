@@ -22,14 +22,14 @@ struct Allergies: View {
                 .opacity(0.5)
                 .cornerRadius(16)
                 .padding(.top,-30)
-
-            VStack(spacing :30){
-          
-                Allergy(title:"Pollen", criticality: "Moderate", symptom: "Symptom", description: "description category...")
-
-            Allergy(title:"Jaiter", criticality: "Critical", symptom: "Symptom", description: "description category...")
-                Spacer()
-            }.padding(.top,40)
+            ScrollView(.vertical,showsIndicators: false){
+                VStack(spacing :30){
+                    ForEach(Patient_only.IsHaving ?? [], id:\.self){ disease in
+                        Allergy(title:disease.ConditionProblemDiagnosis?.display ?? "", criticality: disease.severity ?? "", symptom: "Symptom", description: "description category...")}
+                    Spacer()
+                }
+           
+            }.frame(height: 650)
                 .navigationTitle("Allergies")
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarBackButtonHidden(true)
@@ -62,7 +62,7 @@ struct Allergy: View {
                             .padding(.bottom,1)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         switch criticality {
-                            case "Critical":
+                            case "critical":
                                 Text(criticality + "      ")
                                     .font(.system(size: 12,weight: .bold))
                                     .frame(maxWidth: .infinity, alignment: .trailing)
@@ -70,7 +70,7 @@ struct Allergy: View {
                                     .background(Color( red: 249 / 255, green: 105 / 255, blue: 105 / 255, opacity: 1))
                                     .cornerRadius(24)
                             
-                            case "Moderate":
+                            case "moderate":
                                 Text(criticality + "   ")
                                     .font(.system(size: 12,weight: .bold))
                                     .frame(maxWidth: .infinity, alignment: .trailing)

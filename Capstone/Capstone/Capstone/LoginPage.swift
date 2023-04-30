@@ -8,6 +8,9 @@
 import SwiftUI
 import SwiftJWT
 
+
+var uid = ""
+
 struct LoginPage: View {
     @State private var isOn = false
     @StateObject private var loginVM = LoginViewModel()
@@ -76,9 +79,36 @@ struct LoginPage: View {
                 Spacer()
                 
             }
+        }.onAppear(){
+            
+        }.onOpenURL { url in
+            var q = getQueryItems(url.absoluteString)
+            if let uidVal = q["uid"]{
+               uid = uidVal
+                print(uid)
             }
+        }
     }
+
 }
+
+func getQueryItems(_ urlString: String) -> [String : String] {
+        var queryItems: [String : String] = [:]
+        let components: NSURLComponents? = getURLComonents(urlString)
+        for item in components?.queryItems ?? [] {
+            queryItems[item.name] = item.value?.removingPercentEncoding
+        }
+        return queryItems
+    }
+    
+    func getURLComonents(_ urlString: String?) -> NSURLComponents? {
+        var components: NSURLComponents? = nil
+        let linkUrl = URL(string: urlString?.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) ?? "")
+        if let linkUrl = linkUrl {
+            components = NSURLComponents(url: linkUrl, resolvingAgainstBaseURL: true)
+        }
+        return components
+    }
 //    func authenticateUser(username : String, password : String){
 //        if username.lowercased()=="ice123"{
 //            wrongUsername=0

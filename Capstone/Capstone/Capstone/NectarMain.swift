@@ -83,7 +83,7 @@ struct IsTaking: Decodable {
         let display: String
     }
 }
-struct IsHaving: Decodable {
+struct IsHaving: Decodable , Hashable{
     let id : String?
     let uid: String
     let code: String
@@ -140,7 +140,10 @@ class ViewModel: ObservableObject{
                     Patient_only = patients
                   
                 }
-                print(patients)
+                print(patients.IsHaving?[1].ConditionProblemDiagnosis?.display)
+                print(patients.IsHaving?[1].severity)
+
+                
             }
             catch{
                 print(error)
@@ -148,7 +151,7 @@ class ViewModel: ObservableObject{
             }
         }
         task.resume()
-        print("task resuming ========")
+//        print("task resuming ========")
         
     }
 }
@@ -184,8 +187,8 @@ struct NectarMain: View {
                 VStack {
                     HStack {
                         VStack(spacing :30){
-                            DetailsCard(title: "Patient Name", details: Patient_only.name, action: "more info", destination: PatientDetails())
-                            DetailsCard(title: "Relative (Emergency Contact)", details: Patient_only.telecom ?? "", action: "more info", destination: Relative())
+                            DetailsCard(title: "Patient Name", details:"John Doe", action: "more info", destination: PatientDetails())
+                            DetailsCard(title: "Relative (Emergency Contact)", details: "091-284-2394", action: "more info", destination: Relative())
                             DetailsCard(title: "Current Medications", details: "Metformin, Antihistamines, ....", action: "more info",destination: CurrentMedication())
                             DetailsCard(title: "Allergy", details: "Pollen", action: "more info",destination: Allergies())
                             DetailsCard(title: "Underlying Disease", details: "Resolved asthma", action: "more info",destination: UnderlyingDisease())
@@ -255,7 +258,9 @@ struct DetailsCard<Content : View>: View {
                 .background(Color(red: 236 / 255, green: 241 / 255, blue: 244 / 255, opacity: 1))
                 .cornerRadius(16)
                 .shadow(color: .gray.opacity(0.3), radius: 15, x: 0, y: 12)
-            
+                .onAppear(){
+                    print(uid)
+                }
             
             
         })
