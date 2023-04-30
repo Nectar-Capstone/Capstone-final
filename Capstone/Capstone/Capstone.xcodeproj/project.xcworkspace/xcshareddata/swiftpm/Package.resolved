@@ -46,6 +46,15 @@
       }
     },
     {
+      "identity" : "phonenumberkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/marmelroy/PhoneNumberKit",
+      "state" : {
+        "revision" : "6edd6e38a30aec087cb97f7377edf876c29a427e",
+        "version" : "3.5.9"
+      }
+    },
+    {
       "identity" : "swift-jwt",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/IBM-Swift/Swift-JWT.git",

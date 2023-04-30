@@ -24,6 +24,7 @@
 		4393312A29D59C4B0052332D /* Emergency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4393312929D59C4B0052332D /* Emergency.swift */; };
 		4393312C29D5F6340052332D /* CurrentMedication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4393312B29D5F6340052332D /* CurrentMedication.swift */; };
 		4395A9F429FD3E1C005ACCD7 /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = 4395A9F329FD3E1C005ACCD7 /* SwiftJWT */; };
+		43AF40C529FEA2A400BD2D95 /* PhoneNumberKit in Frameworks */ = {isa = PBXBuildFile; productRef = 43AF40C429FEA2A400BD2D95 /* PhoneNumberKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4395A9F429FD3E1C005ACCD7 /* SwiftJWT in Frameworks */,
+				43AF40C529FEA2A400BD2D95 /* PhoneNumberKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +196,7 @@
 			name = Capstone;
 			packageProductDependencies = (
 				4395A9F329FD3E1C005ACCD7 /* SwiftJWT */,
+				43AF40C429FEA2A400BD2D95 /* PhoneNumberKit */,
 			);
 			productName = Capstone;
 			productReference = 4334B0F129D48CED00C05B44 /* Capstone.app */;
@@ -269,6 +272,7 @@
 			mainGroup = 4334B0E829D48CED00C05B44;
 			packageReferences = (
 				4395A9F229FD3E1B005ACCD7 /* XCRemoteSwiftPackageReference "Swift-JWT" */,
+				43AF40C329FEA2A400BD2D95 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */,
 			);
 			productRefGroup = 4334B0F229D48CED00C05B44 /* Products */;
 			projectDirPath = "";
@@ -492,7 +496,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
@@ -531,7 +535,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
@@ -686,6 +690,14 @@
 				minimumVersion = 4.0.0;
 			};
 		};
+		43AF40C329FEA2A400BD2D95 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/PhoneNumberKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -693,6 +705,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4395A9F229FD3E1B005ACCD7 /* XCRemoteSwiftPackageReference "Swift-JWT" */;
 			productName = SwiftJWT;
+		};
+		43AF40C429FEA2A400BD2D95 /* PhoneNumberKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 43AF40C329FEA2A400BD2D95 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
+			productName = PhoneNumberKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

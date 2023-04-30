@@ -125,8 +125,6 @@ struct IsAllergic: Decodable{
 var Patient_only: Patient = Patient(id: "", uid: "", cid: "", name: "", gender: "", telecom: "", contact_name: "", contact_relationship: "", contact_gender: "", contact_telecom: "", IsHaving: [], IsAllergic: [], IsTaking: [])
 
 class ViewModel: ObservableObject{
-
-    
     func fetch(){
         guard let url = URL(string: "http://localhost:3001/users/patient?uid=00746be9eb85f799371c03d7b8441bb592ddefb5dc215bb01eff70582a55dc0d") else{
             return
@@ -156,6 +154,8 @@ class ViewModel: ObservableObject{
             }
         }
         task.resume()
+        print("task resuming ========")
+        
     }
 }
 struct NectarMain: View {
@@ -211,6 +211,9 @@ struct NectarMain: View {
         
             .onAppear{
                 viewModel.fetch()
+                print("from nectar main ========")
+                print(Patient_only)
+                print("==============")
             }
         
     }

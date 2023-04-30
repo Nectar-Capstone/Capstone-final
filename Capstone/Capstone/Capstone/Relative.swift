@@ -6,7 +6,18 @@
 //
 
 import SwiftUI
+import PhoneNumberKit
+let relative_fullNameArr = Patient_only.contact_name?.components(separatedBy: " ")
+let relative_firstname    = fullNameArr[0]
+let relative_surname = fullNameArr[1]
+var formattedPhoneNumber: String {
+    let phoneNumberKit = PhoneNumberKit()
+    let phoneNumber = try? phoneNumberKit.parse(Patient_only.contact_telecom ?? " ")
+    return phoneNumberKit.format(phoneNumber!, toType: .international)
+}
+func testFormat(sourcePhoneNumber: String) -> String {
 
+}
 struct Relative: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     var body: some View {
@@ -14,9 +25,9 @@ struct Relative: View {
             Color(.white).edgesIgnoringSafeArea(.all)
             VStack{
                 VStack{
-                    InformationCard(img:Image("boy"),name: "Jose Doeramen", status: "father").padding(.bottom,20)
-                    EmergencyCard(phone: "patient").padding(.bottom,20)
-                    RelativeCard(name: "Jessica", surname: "Doraemon", gender: "Female", contact: "+66-999-9999")
+                    InformationCard(img:Image("boy"),name: Patient_only.contact_name ?? " ", status: Patient_only.contact_relationship ?? " ").padding(.bottom,20)
+                    EmergencyCard(phone: Patient_only.contact_telecom ?? " ").padding(.bottom,20)
+                    RelativeCard(name: relative_firstname, surname: relative_surname, gender: Patient_only.contact_gender ?? " ", contact: formattedPhoneNumber)
                 }.padding(.top,-50)
                 Spacer() .frame(height : 150)
             }.navigationTitle("Relative")

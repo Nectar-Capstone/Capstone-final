@@ -21,11 +21,16 @@ struct Course: Hashable, Codable{
     
     
 }
+
+
+
+let fullNameArr = Patient_only.name.components(separatedBy: " ")
+
+let firstname    = fullNameArr[0]
+let surname = fullNameArr[1]
+
 struct PatientDetails: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
-
-
-
     var body: some View {
             ZStack{
                 Color(.white).edgesIgnoringSafeArea(.all)
@@ -33,10 +38,12 @@ struct PatientDetails: View {
           
                     VStack{
                         InformationCard(img:Image("girl"),name: Patient_only.name, status: "patient").padding(.bottom,20)
-                        Patientinformation(name: Patient_only.name.trimmingCharacters(in: .whitespaces), surname: "Doraemon", gender: "Female", birthdate: "16/10/00", contact: "+66-999-9999", emergency: "091-715-5550")
+                        Patientinformation(name: firstname, surname: surname, gender: Patient_only.gender ?? " ", birthdate: "16/10/00", contact: Patient_only.telecom ?? " ", emergency: Patient_only.contact_telecom ?? " ")
                         HStack{
-                            Relatives(name: "Jose Doraemon", status: "Father")
-                            Relatives(name: "Jane Doeramen", status: "Grandmother")}
+                            Relatives(name: Patient_only.contact_name ?? " ", status: Patient_only.contact_relationship ?? " ")
+
+                        }.frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal,30)
 
                         
                     }.padding(.top,-50)
@@ -49,9 +56,16 @@ struct PatientDetails: View {
                              }){
                                  Image(systemName: "arrow.left")
                              })
+            }  .onAppear{
+                print("from patient details ========")
+                print(Patient_only)
+                print("==============")
             }
+        
             
     }
+
+
 }
 
 struct PatientDetails_Previews: PreviewProvider {
