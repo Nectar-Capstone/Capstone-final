@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Organization: Codable, Hashable{
+struct Organization: Decodable{
     let id: Int
     let type: String?
     let name: String
@@ -18,7 +18,7 @@ struct Organization: Codable, Hashable{
     let practitioner: [Practitioner]
 }
 
-struct Patient:Codable, Hashable {
+struct Patient: Decodable {
     let id : String?
     let uid: String
     let cid: String?
@@ -30,12 +30,12 @@ struct Patient:Codable, Hashable {
     let contact_gender: String?
     let contact_telecom: String?
     //    let birthdate: Date?
-    let isHaving : [IsHaving]?
-    let isAllergic: [IsAllergic]?
-    let isTaking: [IsTaking]?
+    let IsHaving : [IsHaving]?
+    let IsAllergic: [IsAllergic]?
+    let IsTaking: [IsTaking]?
 }
 
-struct Practitioner:Codable, Hashable {
+struct Practitioner:Decodable {
     let id : String
     let did: String
     let name: String?
@@ -50,7 +50,7 @@ struct Practitioner:Codable, Hashable {
     let isAccess: [IsAccess]
 }
 
-struct Credential: Codable, Hashable {
+struct Credential:Decodable {
     let id : String
     let username: String
     let password: String?
@@ -60,51 +60,51 @@ struct Credential: Codable, Hashable {
     let practitioner: Practitioner?
 }
 
-struct IsAccess: Codable, Hashable {
-    let id : String
+struct IsAccess: Decodable {
+    let id : String?
     let uid: String
     let did: String
     let latitude: String?
     let longitude: String?
-    let accessTime: Date?
+    let accessTime: String?
 }
 
-struct IsTaking: Codable, Hashable {
-    let id : String
+struct IsTaking: Decodable {
+    let id : String?
     let uid: String
     let code: String
-    let authoredOn: Date?
+    let authoredOn: String?
     let dosageInstruction: String?
     let note: String?
     
-    struct Medication: Codable, Hashable {
-        
-        
-        let id : String
-        let code: String
-        let display: String
-        let isTaking: [IsTaking]
-    }
+//    struct Medication: Decodable {
+//
+//
+//        let id : String
+//        let code: String
+//        let display: String
+//        let isTaking: [IsTaking]
+//    }
 }
-struct IsHaving: Codable, Hashable {
-    let id : String
+struct IsHaving: Decodable {
+    let id : String?
     let uid: String
     let code: String
     let clinicalStatus: String?
     let verificationStatus: String?
     let category: String?
     let severity: String?
-    let recordDate: Date?
-    let conditionProblemDiagnosis: ConditionProblemDiagnosis
-    
-    struct ConditionProblemDiagnosis: Codable ,Hashable{
-        let id : String
-        let code: String
-        let display: String
-    }
+    let recordDate: String?
+//    let conditionProblemDiagnosis: ConditionProblemDiagnosis?
+//
+//    struct ConditionProblemDiagnosis: Codable ,Hashable{
+//        let id : String
+//        let code: String
+//        let display: String
+//    }
 }
-struct IsAllergic: Codable, Hashable{
-    let id : String
+struct IsAllergic: Decodable{
+    let id : String?
     let uid: String
     let code: String
     let clinicalStatus: String?
@@ -112,17 +112,17 @@ struct IsAllergic: Codable, Hashable{
     let type: String?
     let category: String?
     let criticality: String?
-    let recordDate: Date?
-    let allergicIntoleranceSubstance: AllergicIntoleranceSubstance
-    
-    struct AllergicIntoleranceSubstance: Codable, Hashable {
-        let id : String
-        let code: String
-        let display: String
-        let isTaking: [IsTaking]
-    }
+    let recordDate: String?
+//    let allergicIntoleranceSubstance: AllergicIntoleranceSubstance?
+//
+//    struct AllergicIntoleranceSubstance: Decodable {
+//        let id : String
+//        let code: String
+//        let display: String
+//        let isTaking: [IsTaking]
+//    }
 }
-var Patient_only: Patient = Patient(id: "", uid: "", cid: "", name: "", gender: "", telecom: "", contact_name: "", contact_relationship: "", contact_gender: "", contact_telecom: "", isHaving: [], isAllergic: [], isTaking: [])
+var Patient_only: Patient = Patient(id: "", uid: "", cid: "", name: "", gender: "", telecom: "", contact_name: "", contact_relationship: "", contact_gender: "", contact_telecom: "", IsHaving: [], IsAllergic: [], IsTaking: [])
 
 class ViewModel: ObservableObject{
 
