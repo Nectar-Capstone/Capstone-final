@@ -22,12 +22,16 @@ struct CurrentMedication: View {
                 .opacity(0.5)
                 .cornerRadius(16)
                 .padding(.top,-30)
-      
-            VStack(spacing :30){
-                Medication(title:"Metaform" ,date: "15/08/2022", amount: "500 mg", doses: "2 doses per xxx", description: "description category and form")
-                Medication(title:"Metaform", date: "15/08/2022", amount: "500 mg", doses: "2 doses per xxx", description: "description category and form")
-                Spacer()
-            }.padding(.top,40)
+            ScrollView(.vertical,showsIndicators: false){
+                VStack(spacing :30){
+                    ForEach(Patient_only.IsTaking ?? [], id:\.self){ medication in
+                        Medication(title:"Metaform" ,date: "15/08/2022", amount: "500 mg", doses: "2 doses per xxx", description: "description category and form")
+                        Spacer()
+                    }
+                    
+                }
+           
+            }.frame(height: 650)
                 .navigationTitle("Current Medication")
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarBackButtonHidden(true)

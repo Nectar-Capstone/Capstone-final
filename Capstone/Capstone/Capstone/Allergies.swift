@@ -24,8 +24,8 @@ struct Allergies: View {
                 .padding(.top,-30)
             ScrollView(.vertical,showsIndicators: false){
                 VStack(spacing :30){
-                    ForEach(Patient_only.IsHaving ?? [], id:\.self){ disease in
-                        Allergy(title:disease.ConditionProblemDiagnosis?.display ?? "", criticality: disease.severity ?? "", symptom: "Symptom", description: "description category...")}
+                    ForEach(Patient_only.IsAllergic ?? [], id:\.self){ allergy in
+                        Allergy(title:allergy.AllergicIntoleranceSubstance?.display ?? "", criticality: allergy.criticality ?? "", symptom: "Symptom")}
                     Spacer()
                 }
            
@@ -51,7 +51,6 @@ struct Allergy: View {
     var title: String
     var criticality : String
     var symptom : String
-    var description: String
     var body: some View {
         HStack{
             HStack{
@@ -63,20 +62,45 @@ struct Allergy: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                         switch criticality {
                             case "critical":
-                                Text(criticality + "      ")
+                                Text(criticality)
                                     .font(.system(size: 12,weight: .bold))
-                                    .frame(maxWidth: .infinity, alignment: .trailing)
-                                    .frame(width:80,height:20)
-                                    .background(Color( red: 249 / 255, green: 105 / 255, blue: 105 / 255, opacity: 1))
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .frame(width:70,height:20)
+                                    .padding(.vertical,3)
+                                    .background(Color( red: 237 / 255, green: 69 / 255, blue: 92 / 255, opacity: 1))
                                     .cornerRadius(24)
                             
                             case "moderate":
-                                Text(criticality + "   ")
+                                Text(criticality)
                                     .font(.system(size: 12,weight: .bold))
-                                    .frame(maxWidth: .infinity, alignment: .trailing)
-                                    .frame(width:80,height:20)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .frame(width:70,height:20)
+                                    .padding(.vertical,3)
+
                                     .background(Color( red: 244 / 255, green: 209 / 255, blue: 86 / 255, opacity: 1))
                                     .cornerRadius(24)
+               
+                        case "low":
+                            Text(criticality)
+                                .font(.system(size: 12,weight: .bold))
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .frame(width:70,height:20)
+                                .padding(.vertical,3)
+
+                                .background(Color( red: 70 / 255, green: 173 / 255, blue: 167 / 255, opacity: 1))
+                                .cornerRadius(24)
+                        case "unable-to-accesses":
+                            Text("unknown")
+                                .font(.system(size: 12,weight: .bold))
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .frame(width:70,height:20)
+                                .padding(.vertical,3)
+                                .background(Color( red: 255 / 255, green: 116 / 255, blue: 86 / 255, opacity: 1))
+                                .cornerRadius(24)
                             default:
                                 Text("")
                         }
@@ -87,12 +111,6 @@ struct Allergy: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal,30)
                             .padding(.bottom,1)
-                        Text(description)
-                            .font(.system(size: 12))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal,30)
-                            .padding(.bottom,1)
-
                     } .padding(.horizontal,5)
 
             }

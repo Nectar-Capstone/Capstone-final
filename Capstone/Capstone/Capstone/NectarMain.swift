@@ -99,7 +99,7 @@ struct IsHaving: Decodable , Hashable{
         let display: String
     }
 }
-struct IsAllergic: Decodable{
+struct IsAllergic: Decodable, Hashable{
     let id : String?
     let uid: String
     let code: String
@@ -111,7 +111,7 @@ struct IsAllergic: Decodable{
     let recordDate: String?
     let AllergicIntoleranceSubstance: AllergicIntoleranceSubstance?
 
-    struct AllergicIntoleranceSubstance: Decodable {
+    struct AllergicIntoleranceSubstance: Decodable ,Hashable{
         let code: String
         let display: String
     }
