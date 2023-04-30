@@ -23,9 +23,9 @@ struct CurrentMedication: View {
                 .cornerRadius(16)
                 .padding(.top,-30)
             ScrollView(.vertical,showsIndicators: false){
-                VStack(spacing :30){
+                VStack(spacing :10){
                     ForEach(Patient_only.IsTaking ?? [], id:\.self){ medication in
-                        Medication(title:"Metaform" ,date: "15/08/2022", amount: "500 mg", doses: "2 doses per xxx", description: "description category and form")
+                        Medication(title:medication.Medication?.display ?? "" ,date: medication.authoredOn ?? "unknown date", doses: medication.dosageInstruction ?? "", description: medication.note ?? "")
                         Spacer()
                     }
                     
@@ -52,7 +52,6 @@ struct CurrentMedication_Previews: PreviewProvider {
 struct Medication: View {
     var title: String
     var date : String
-    var amount : String
     var doses : String
     var description: String
     var body: some View {
@@ -61,27 +60,23 @@ struct Medication: View {
                 VStack{
                     HStack{
                         Text(title)
-                            .font(.system(size: 16))
+                            .font(.system(size: 13))
+                            .fontWeight(.bold)
                             .padding(.bottom,1)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         Text(date)
                             .font(.system(size: 12))
-                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .frame(maxWidth: 80, alignment: .trailing)
                     }
-                    Text(amount)
-                        .font(.system(size: 12))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal,30)
-                        .padding(.bottom,1)
                     Text(doses)
                         .font(.system(size: 12))
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal,30)
+                        .padding(.horizontal,20)
                         .padding(.bottom,1)
                     Text(description)
                         .font(.system(size: 12))
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal,30)
+                        .padding(.horizontal,20)
                         .padding(.bottom,1)
 
                 } .padding(.horizontal,5)

@@ -25,7 +25,7 @@ struct Allergies: View {
             ScrollView(.vertical,showsIndicators: false){
                 VStack(spacing :30){
                     ForEach(Patient_only.IsAllergic ?? [], id:\.self){ allergy in
-                        Allergy(title:allergy.AllergicIntoleranceSubstance?.display ?? "", criticality: allergy.criticality ?? "", symptom: "Symptom")}
+                        Allergy(title:allergy.AllergicIntoleranceSubstance?.display ?? "", criticality: allergy.criticality ?? "")}
                     Spacer()
                 }
            
@@ -50,7 +50,6 @@ struct Allergies_Previews: PreviewProvider {
 struct Allergy: View {
     var title: String
     var criticality : String
-    var symptom : String
     var body: some View {
         HStack{
             HStack{
@@ -106,11 +105,6 @@ struct Allergy: View {
                         }
               
                         }
-                        Text(symptom)
-                            .font(.system(size: 12))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal,30)
-                            .padding(.bottom,1)
                     } .padding(.horizontal,5)
 
             }

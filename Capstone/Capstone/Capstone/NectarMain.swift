@@ -118,43 +118,43 @@ struct IsAllergic: Decodable, Hashable{
 }
 var Patient_only: Patient = Patient(id: "", uid: "", cid: "", name: "", gender: "", telecom: "", contact_name: "", contact_relationship: "", contact_gender: "", contact_telecom: "", IsHaving: [], IsAllergic: [], IsTaking: [])
 
-class ViewModel: ObservableObject{
-    func fetch(){
-        guard let url = URL(string: "http://localhost:3001/users/patient?uid=00746be9eb85f799371c03d7b8441bb592ddefb5dc215bb01eff70582a55dc0d") else{
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue(" Bearer "+jwttoken, forHTTPHeaderField: "Authorization")
-        print("request with " + jwttoken )
-        
-        let task = URLSession.shared.dataTask(with: request) { [weak self]
-            data, _,error in
-            guard let data = data, error == nil else{
-                return
-            }
-            do{
-                let patients = try JSONDecoder().decode(Patient.self, from: data)
-                DispatchQueue.main.async {
-                    Patient_only = patients
-                  
-                }
-                print(patients.IsHaving?[1].ConditionProblemDiagnosis?.display)
-                print(patients.IsHaving?[1].severity)
-
-                
-            }
-            catch{
-                print(error)
-                
-            }
-        }
-        task.resume()
-//        print("task resuming ========")
-        
+func convertToDate(_ dateString: String) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+    dateFormatter.timeZone = TimeZone(secondsFromGMT: 7 * 60 * 60)
+    if let date = dateFormatter.date(from: dateString) {
+        dateFormatter.dateFormat = "dd MMM yyyy"
+        return dateFormatter.string(from: date)
+    } else {
+        return "unknown date"
     }
 }
+
+class ViewModel: ObservableObject{
+    func fetch() async -> Patient {
+        guard let url = URL(string: "http://localhost:3001/users/patient?uid=00746be9eb85f799371c03d7b8441bb592ddefb5dc215bb01eff70582a55dc0d") else {
+            return Patient_only
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer " + jwttoken, forHTTPHeaderField: "Authorization")
+        print("request with " + jwttoken)
+
+        do {
+            let (data, _) = try await URLSession.shared.data(for: request)
+            let patients = try JSONDecoder().decode(Patient.self, from: data)
+            print(patients.IsHaving?[1].ConditionProblemDiagnosis?.display)
+            print(patients.IsHaving?[1].severity)
+            return patients
+        } catch {
+            print(error)
+            return Patient_only
+        }
+    }
+
+}
+
 struct NectarMain: View {
     @StateObject var viewModel = ViewModel()
     var body: some View {
@@ -187,13 +187,14 @@ struct NectarMain: View {
                 VStack {
                     HStack {
                         VStack(spacing :30){
-                            DetailsCard(title: "Patient Name", details:"John Doe", action: "more info", destination: PatientDetails())
-                            DetailsCard(title: "Relative (Emergency Contact)", details: "091-284-2394", action: "more info", destination: Relative())
-                            DetailsCard(title: "Current Medications", details: "Metformin, Antihistamines, ....", action: "more info",destination: CurrentMedication())
-                            DetailsCard(title: "Allergy", details: "Pollen", action: "more info",destination: Allergies())
-                            DetailsCard(title: "Underlying Disease", details: "Resolved asthma", action: "more info",destination: UnderlyingDisease())
+                            
+                            DetailsCard(title: "Patient name", details:Patient_only.name, action: "more info", destination: PatientDetails())
+                            DetailsCard(title: "Relative (Emergency Contact)", details: Patient_only.contact_telecom ?? "", action: "more info", destination: Relative())
+//                            DetailsCard(title: "Current Medications", details: Patient_only.IsTaking?[1].Medication?.display ?? " ", action: "more info",destination: CurrentMedication())
+//                            DetailsCard(title: "Allergy", details: Patient_only.IsAllergic?[1].AllergicIntoleranceSubstance?.display ?? "", action: "more info",destination: Allergies())
+//                            DetailsCard(title: "Underlying Disease", details: Patient_only.IsHaving?[0].ConditionProblemDiagnosis?.display ?? "", action: "more info",destination: UnderlyingDisease())
                             Spacer()
-                    
+                            
                         }.padding(.top,70)
                         
                         
@@ -206,83 +207,84 @@ struct NectarMain: View {
             }
         }  .navigationBarBackButtonHidden(true)
         
-            .onAppear{
-                viewModel.fetch()
+            .onAppear{Task{
+                Patient_only = await viewModel.fetch()
                 print("from nectar main ========")
                 print(Patient_only)
                 print("==============")
             }
-        
+                
+            }
     }
-}
-
-struct NectarMain_Previews: PreviewProvider {
-    static var previews: some View {
-        NectarMain()
+    
+    struct NectarMain_Previews: PreviewProvider {
+        static var previews: some View {
+            NectarMain()
+        }
     }
-}
-
-struct DetailsCard<Content : View>: View {
-    var title : String
-    var details : String
-    var action : String
-    var destination : Content
-    var body: some View {
-        NavigationLink(destination: destination, label:{
+    
+    struct DetailsCard<Content : View>: View {
+        var title : String
+        var details : String
+        var action : String
+        var destination : Content
+        var body: some View {
+            NavigationLink(destination: destination, label:{
+                HStack{
+                    HStack{
+                        VStack{
+                            Text(title)
+                                .font(.system(size: 14, weight:.semibold))
+                                .padding(.bottom,2)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            Text(details)
+                                .font(.system(size: 12))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal)
+                        } .padding(.horizontal,5) .foregroundColor(.black)
+                        Spacer()
+                        Button{
+                            print(action)
+                        }
+                    label:{Text("+")
+                            .frame(width: 25, height: 25)
+                            .font(.system(size: 22, weight:.bold))
+                            .foregroundColor(Color(red: 140 / 255, green: 16 / 255, blue: 16 / 255, opacity: 1))
+                            .background(Color(red: 227 / 255, green: 156 / 255, blue: 155 / 255, opacity: 1))
+                            .clipShape(Circle())
+                    }
+                    }
+                }   .padding(.horizontal)
+                    .frame(width:287,height:75)
+                    .background(Color(red: 236 / 255, green: 241 / 255, blue: 244 / 255, opacity: 1))
+                    .cornerRadius(16)
+                    .shadow(color: .gray.opacity(0.3), radius: 15, x: 0, y: 12)
+                    .onAppear(){
+                        print(uid)
+                    }
+                
+                
+            })
+        }
+    }
+    struct BackgroundColor: View {
+        var backgroundColor: Color
+        var body: some View {
             HStack{
                 HStack{
                     VStack{
-                        Text(title)
-                            .font(.system(size: 14, weight:.semibold))
-                            .padding(.bottom,2)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        Text(details)
-                            .font(.system(size: 12))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal)
-                    } .padding(.horizontal,5) .foregroundColor(.black)
+                        
+                    } .padding(.horizontal,5)
                     Spacer()
-                    Button{
-                        print(action)
-                    }
-                label:{Text("+")
-                        .frame(width: 25, height: 25)
-                        .font(.system(size: 22, weight:.bold))
-                        .foregroundColor(Color(red: 140 / 255, green: 16 / 255, blue: 16 / 255, opacity: 1))
-                        .background(Color(red: 227 / 255, green: 156 / 255, blue: 155 / 255, opacity: 1))
-                        .clipShape(Circle())
-                }
-                }
-            }   .padding(.horizontal)
-                .frame(width:287,height:75)
-                .background(Color(red: 236 / 255, green: 241 / 255, blue: 244 / 255, opacity: 1))
-                .cornerRadius(16)
-                .shadow(color: .gray.opacity(0.3), radius: 15, x: 0, y: 12)
-                .onAppear(){
-                    print(uid)
-                }
-            
-            
-        })
-    }
-}
-struct BackgroundColor: View {
-    var backgroundColor: Color
-    var body: some View {
-        HStack{
-            HStack{
-                VStack{
                     
-                } .padding(.horizontal,5)
-                Spacer()
+                }
                 
             }
+            .padding(.horizontal)
+            .frame(width:287,height:75)
+            .background(backgroundColor)
+            .cornerRadius(16)
             
         }
-        .padding(.horizontal)
-        .frame(width:287,height:75)
-        .background(backgroundColor)
-        .cornerRadius(16)
-        
     }
 }

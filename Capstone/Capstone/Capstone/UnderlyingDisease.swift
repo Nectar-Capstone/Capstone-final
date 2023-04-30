@@ -25,7 +25,7 @@ struct UnderlyingDisease: View {
             ScrollView(.vertical, showsIndicators: false){
                 VStack(spacing :30){
                     ForEach(Patient_only.IsHaving ?? [], id:\.self){ disease in
-                        Disease(title:disease.ConditionProblemDiagnosis?.display ?? "" ,date: "15/08/2022")}
+                        Disease(title:disease.ConditionProblemDiagnosis?.display ?? "" ,date: convertToDate(disease.recordDate ?? "unknown date"))}
                     Spacer()
                 }}.frame(height: 650)
                     .navigationTitle("Underlying Disease")
@@ -53,10 +53,12 @@ struct Disease: View {
             HStack{
                 VStack{
                         Text(title)
-                            .font(.system(size: 18))
+                            .font(.system(size: 15))
+                            .fontWeight(.bold)
                             .padding(.bottom,1)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                    Text("Since :"+date)             .font(.system(size: 14))
+                    Text("Since :"+date)
+                        .font(.system(size: 14))
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal,20)
                         .padding(.bottom,1)
