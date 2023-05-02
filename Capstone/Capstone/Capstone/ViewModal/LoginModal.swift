@@ -7,10 +7,13 @@
 import Foundation
 
 class LoginViewModel: ObservableObject {
-    
     var username: String = ""
     var password: String = ""
+    
+
     @Published var isAuthenticated: Bool = false
+    @Published var isNotAuthenticated: Bool = false
+
     
     func login() {
         
@@ -25,6 +28,10 @@ class LoginViewModel: ObservableObject {
                     }
                 case .failure(let error):
                     print(error.localizedDescription)
+                self.isNotAuthenticated = true
+
+      
+ 
             }
         }
     }

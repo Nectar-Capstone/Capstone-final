@@ -139,7 +139,7 @@ class ViewModel: ObservableObject{
     }
     func fetch() async -> Patient {
         guard let url = URL(string:
-            "https://57fa-49-228-231-83.ngrok-free.app/users/patient?uid=00746be9eb85f799371c03d7b8441bb592ddefb5dc215bb01eff70582a55dc0d") else {
+            "https://206a-1-47-134-3.ngrok-free.app/users/patient?uid=00746be9eb85f799371c03d7b8441bb592ddefb5dc215bb01eff70582a55dc0d") else {
             return Patient_only
         }
 
@@ -266,7 +266,7 @@ struct NectarMain: View {
                     .cornerRadius(16)
                     .shadow(color: .gray.opacity(0.3), radius: 15, x: 0, y: 12)
                     .onAppear(){
-                        print(uid)
+                        print(Uid)
                     }
                 
                 

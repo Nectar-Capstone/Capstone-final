@@ -9,11 +9,11 @@ import SwiftUI
 import SwiftJWT
 
 
-var uid = ""
+var Uid = ""
 
 struct LoginPage: View {
     @State private var isOn = false
-    @StateObject private var loginVM = LoginViewModel()
+    @ObservedObject private var loginVM = LoginViewModel()
     @State  var username = ""
     @State  var password = ""
     @State private var wrongUsername = 0
@@ -68,6 +68,7 @@ struct LoginPage: View {
                         NavigationLink(destination: NectarMain(), isActive: $loginVM.isAuthenticated) { EmptyView() }
                         Button("LOGIN") {
                             loginVM.login()
+                            
                         }
                         .frame(width: 299, height: 55)
                         .font(.system(size: 20, weight: .bold))
@@ -84,9 +85,14 @@ struct LoginPage: View {
         }.onOpenURL { url in
             var q = getQueryItems(url.absoluteString)
             if let uidVal = q["uid"]{
-               uid = uidVal
-                print(uid)
+               Uid = uidVal
+                print(Uid)
             }
+        }  .alert(isPresented: $loginVM.isNotAuthenticated) {
+            Alert(
+                title: Text("Sign In Failed"),
+                message: Text("Invlaid username or password")
+            )
         }
     }
 
